@@ -3,6 +3,7 @@ import unittest
 from pages.homescreen import Home
 from pages.searchscreen import Search
 from pages.objectinfoscreen import ObjectInfo
+from pages.editplacescreen import EditPlace
 from general.driver import driver
 
 
@@ -33,10 +34,10 @@ class MapsMeAndroidTests(unittest.TestCase):
         homepage.check_is_displayed_search_button()
         # Tap search button
         homepage.click_on_search_button()
-        # # Tap Categories button
+        # Tap Categories button
         searchpage = Search(self.driver)
         searchpage.click_on_categories_button()
-        # # Tap Food button
+        # Tap Food button
         searchpage.click_on_food_button()
         # Check results
         self.driver.implicitly_wait(10)
@@ -53,13 +54,24 @@ class MapsMeAndroidTests(unittest.TestCase):
         objectinfoscreen.check_tv_address_is('Никольская улица, 8/1 с1')
         objectinfoscreen.check_is_displayed_av_direction()
         objectinfoscreen.check_is_displayed_tv_straight_distance()
-        # # Open full info
+        # Open full info
         homepage.click_on_place_preview()
-        # # Check full info
+        # Check full info
         objectinfoscreen.check_is_displayed_today_opening_hours()
         objectinfoscreen.check_is_displayed_tv_place_phone()
         objectinfoscreen.check_is_displayed_tv_place_website()
         homepage.check_format_coordinates()
+        objectinfoscreen.check_is_displayed_tv_place_cuisine()
+        objectinfoscreen.check_is_displayed_tv_editor()
+        objectinfoscreen.click_on_btn_edit_place()
+        editplace = EditPlace(self.driver)
+        editplace.scroll_to_block_opening_hours()
+        editplace.check_opening_hours_value()
+        editplace.check_phone_value()
+        editplace.check_website_value()
+        editplace.scroll_to_block_cuisine()
+        editplace.check_cuisine_value()
+
 
 if __name__ == '__main__':
     suite = unittest.TestLoader().loadTestsFromTestCase(MapsMeAndroidTests)

@@ -9,7 +9,9 @@ class Home(BasePage, unittest.TestCase):
     _place_preview = 'pp__preview'
     _place_coordinates = 'tv__place_latlon'
     _menu_frame_btn_search = 'search'
+    coordinates_in_decimal_degrees1 = ''
 
+    # verify that the elements are displayed
     def check_is_displayed_my_position_button(self):
         super().is_displayed_by_id(self._navigation_buttons_btn_my_position)
 
@@ -22,6 +24,7 @@ class Home(BasePage, unittest.TestCase):
     def check_is_displayed_search_button(self):
         super().is_displayed_by_id(self._menu_frame_btn_search)
 
+    # click on the element
     def click_on_my_position_button(self):
         super().click_by_id(self._navigation_buttons_btn_my_position)
 
@@ -47,6 +50,7 @@ class Home(BasePage, unittest.TestCase):
 
     def check_format_coordinates(self):
         coordinates_in_decimal_degrees1 = self.driver.find_element_by_id('tv__place_latlon')
+        print("Coordinates in decimal degrees : ", coordinates_in_decimal_degrees1.text)
         homepage = Home(self.driver)
         homepage.click_on_place_coordinates()
         coordinates_in_degrees_and_minutes1 = self.driver.find_element_by_id('tv__place_latlon')
@@ -56,9 +60,8 @@ class Home(BasePage, unittest.TestCase):
         coordinates_in_degrees_and_minutes2 = self.driver.find_element_by_id('tv__place_latlon')
         homepage.click_on_place_coordinates()
         self.assertTrue(coordinates_in_degrees_and_minutes1, coordinates_in_degrees_and_minutes2)
+        print("Coordinates in degrees and minutes : ", coordinates_in_degrees_and_minutes1.text)
         homepage.click_on_place_coordinates()
-        print("Coordinates in decimal degrees : ", coordinates_in_decimal_degrees1)
-        print("Coordinates in degrees and minutes : ", coordinates_in_degrees_and_minutes1)
 
     def hide_keyboard(self):
         self.driver.hide_keyboard()
