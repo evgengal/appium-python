@@ -12,11 +12,23 @@ class BasePage(object):
     def click_by_name(self, name):
         self.driver.find_element_by_name(name).click()
 
+    def click_on_object_with_name(self, value):
+        self.click_by_name(value)
+
+    def input_text_by_id(self, element_id, value):
+        self.driver.find_element_by_id(element_id).send_keys(value)
+
+    def input_text_by_name(self, name, value):
+        self.driver.find_element_by_name(name).send_keys(value)
+
     def is_displayed_by_id(self, element_id):
         self.driver.find_element_by_id(element_id).is_displayed()
 
     def is_displayed_by_name(self, name):
         self.driver.find_element_by_name(name).is_displayed()
+
+    def check_is_displayed_object_with_name(self, value):
+        self.is_displayed_by_name(value)
 
     def single_tap(self, x, y):
         action = TouchAction(self.driver)
@@ -46,3 +58,17 @@ class BasePage(object):
             '.childSelector(new UiSelector().className(android.widget.TextView))')
         return child_text
 
+    def tap_back_in_toolbar(self):
+        back_button = self.driver.find_element_by_android_uiautomator(
+            'new UiSelector().resourceId(\"com.mapswithme.maps.pro:id/toolbar\")'
+            '.childSelector(new UiSelector().className(android.widget.ImageButton))')
+        back_button.click()
+
+    def hide_keyboard(self):
+        self.driver.hide_keyboard()
+
+    def go_back(self):
+        self.driver.back()
+
+    def tap_navigate_next(self):
+        self.driver.press_keycode(66)

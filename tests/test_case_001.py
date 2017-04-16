@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-"
 import unittest
+import time
 from pages.homescreen import Home
 from pages.searchscreen import Search
 from pages.objectinfoscreen import ObjectInfo
@@ -17,6 +18,13 @@ class MapsMeAndroidTests(unittest.TestCase):
         self.driver.quit()
 
     def test_case_001(self):
+
+        demo_data_001 = {
+            "latin_name": "Rukkola Latin",
+            "zipcode": "109012",
+            "email": "test@test.com",
+        }
+
         # Check my_position button is displayed
         homepage = Home(self.driver)
         homepage.check_is_displayed_my_position_button()
@@ -63,6 +71,7 @@ class MapsMeAndroidTests(unittest.TestCase):
         homepage.check_format_coordinates()
         objectinfoscreen.check_is_displayed_tv_place_cuisine()
         objectinfoscreen.check_is_displayed_tv_editor()
+        # Open edit place screen and check
         objectinfoscreen.click_on_btn_edit_place()
         editplace = EditPlace(self.driver)
         editplace.scroll_to_block_opening_hours()
@@ -71,7 +80,24 @@ class MapsMeAndroidTests(unittest.TestCase):
         editplace.check_website_value()
         editplace.scroll_to_block_cuisine()
         editplace.check_cuisine_value()
-
+        # Add latin language
+        editplace.scroll_to_btn_add_langs()
+        editplace.click_on_btn_add_langs()
+        editplace.scroll_to_latin_lang()
+        editplace.click_on_object_with_name('Latin')
+        editplace.check_is_displayed__btn_add_langs()
+        editplace.check_is_displayed_object_with_name('Latin')
+        editplace.input_new_lang(demo_data_001["latin_name"])
+        # start work around, need to add function: clear focus on touch outside
+        editplace.click_on_btn_add_langs()
+        editplace.tap_back_in_toolbar()
+        # end work around
+        # Add zipcode
+        editplace.scroll_to_block_opening_hours()
+        editplace.input_new_zipcode(demo_data_001["zipcode"])
+        #editplace.check_is_displayed_object_with_name(demo_data_001["zipcode"])
+        editplace.click_on_opening_hours()
+        editplace.click_on_time_open()
 
 if __name__ == '__main__':
     suite = unittest.TestLoader().loadTestsFromTestCase(MapsMeAndroidTests)

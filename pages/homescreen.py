@@ -62,9 +62,3 @@ class Home(BasePage, unittest.TestCase):
         self.assertTrue(coordinates_in_degrees_and_minutes1, coordinates_in_degrees_and_minutes2)
         print("Coordinates in degrees and minutes : ", coordinates_in_degrees_and_minutes1.text)
         homepage.click_on_place_coordinates()
-
-    def hide_keyboard(self):
-        self.driver.hide_keyboard()
-
-    def go_back(self):
-        self.driver.back()
