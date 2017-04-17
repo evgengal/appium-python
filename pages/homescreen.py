@@ -37,13 +37,6 @@ class Home(BasePage, unittest.TestCase):
     def click_on_place_coordinates(self):
         super().click_by_id(self._place_coordinates)
 
-    def find_and_tap_arrow_in_center_of_view(self):
-        dimensions = self.driver.get_window_size()
-        screen_width = dimensions["width"] / 2
-        screen_height = dimensions["height"] / 2
-        print("Coordinates of arrow in the center of the screen : ", screen_width, " and ", screen_height)
-        super().single_tap(screen_width, screen_height)
-
     def save_my_coordinates(self):
         my_coordinates = self.driver.find_element_by_id('tv__place_latlon')
         print("My coordinates is : ", my_coordinates.text)

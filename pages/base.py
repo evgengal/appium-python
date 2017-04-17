@@ -1,4 +1,5 @@
 from appium.webdriver.common.touch_action import TouchAction
+from datetime import datetime
 
 
 class BasePage(object):
@@ -29,6 +30,18 @@ class BasePage(object):
 
     def check_is_displayed_object_with_name(self, value):
         self.is_displayed_by_name(value)
+
+    def find_and_tap_arrow_in_center_of_view(self):
+        dimensions = self.driver.get_window_size()
+        screen_width = dimensions["width"] / 2
+        screen_height = dimensions["height"] / 2
+        self.single_tap(screen_width, screen_height)
+
+    def tap_outside_to_disable_dialog(self):
+        dimensions = self.driver.get_window_size()
+        screen_width = dimensions["width"] / 2
+        screen_height = "80.0"
+        self.single_tap(screen_width, screen_height)
 
     def single_tap(self, x, y):
         action = TouchAction(self.driver)
@@ -63,6 +76,21 @@ class BasePage(object):
             'new UiSelector().resourceId(\"com.mapswithme.maps.pro:id/toolbar\")'
             '.childSelector(new UiSelector().className(android.widget.ImageButton))')
         back_button.click()
+
+    def set_new_time(self, time_24):
+        time_format_24 = datetime.strptime(time_24, "%H:%M")
+        time_hour = time_format_24.strftime("X%I").replace('X0', 'X').replace('X', '')
+        time_min = time_format_24.strftime("%M")
+        time_format = time_format_24.strftime("%p")
+        self.click_by_name(time_hour)
+        self.click_by_name(time_min)
+        self.click_by_name(time_format)
+        self.click_by_id("button1")
+
+    def set_time_unit(self):
+        time = self.driver.find_element_by_android_uiautomator(
+            'new UiSelector().new UiSelector().className(android.widget.RadialTimePickerView$RadialPickerTouchHelper)')
+        time.send_keys("10")
 
     def hide_keyboard(self):
         self.driver.hide_keyboard()

@@ -23,6 +23,10 @@ class MapsMeAndroidTests(unittest.TestCase):
             "latin_name": "Rukkola Latin",
             "zipcode": "109012",
             "email": "test@test.com",
+            "opening_time": "9:30",
+            "closing_time": "21:15",
+            "cuisine": "Austrian",
+            "new_opening_hours": ""
         }
 
         # Check my_position button is displayed
@@ -85,7 +89,7 @@ class MapsMeAndroidTests(unittest.TestCase):
         editplace.click_on_btn_add_langs()
         editplace.scroll_to_latin_lang()
         editplace.click_on_object_with_name('Latin')
-        editplace.check_is_displayed__btn_add_langs()
+        editplace.check_is_displayed_btn_add_langs()
         editplace.check_is_displayed_object_with_name('Latin')
         editplace.input_new_lang(demo_data_001["latin_name"])
         # start work around, need to add function: clear focus on touch outside
@@ -95,9 +99,40 @@ class MapsMeAndroidTests(unittest.TestCase):
         # Add zipcode
         editplace.scroll_to_block_opening_hours()
         editplace.input_new_zipcode(demo_data_001["zipcode"])
-        #editplace.check_is_displayed_object_with_name(demo_data_001["zipcode"])
         editplace.click_on_opening_hours()
+        # Add new opening hours
         editplace.click_on_time_open()
+        editplace.set_new_time(demo_data_001["opening_time"])
+        editplace.set_new_time(demo_data_001["closing_time"])
+        editplace.click_on_btn_save()
+        editplace.scroll_to_block_opening_hours()
+        same_value = self.driver.find_element_by_id('opening_hours')
+        demo_data_001["new_opening_hours"] = same_value.text
+        # Add new email
+        editplace.scroll_to_block_cuisine()
+        editplace.input_new_email(demo_data_001["email"])
+        # Add new cuisine
+        editplace.click_on_cuisine()
+        editplace.click_on_object_with_name(demo_data_001["cuisine"])
+        editplace.click_on_btn_save()
+        # Turn on wifi
+        editplace.scroll_to_block_wifi()
+        editplace.click_on_sw_wifi()
+        # Save new values
+        editplace.click_on_btn_save()
+        editplace.skip_dialog_send_it_to_all_users()
+        editplace.check_is_displayed_alert_register()
+        editplace.check_is_displayed_alert_login_osm()
+        editplace.tap_outside_to_disable_dialog()
+        # Check new values
+        objectinfoscreen.check_tv_title_is('Руккола')
+        email = demo_data_001["new_opening_hours"]
+        cuisine = demo_data_001["cuisine"]
+        new_opening_hours = demo_data_001["new_opening_hours"]
+        objectinfoscreen.is_displayed_by_name(new_opening_hours)
+        objectinfoscreen.is_displayed_by_name(email)
+        objectinfoscreen.check_one_of_cuisine_is_displayed(cuisine)
+        objectinfoscreen.check_is_displayed_tv_place_wifi()
 
 if __name__ == '__main__':
     suite = unittest.TestLoader().loadTestsFromTestCase(MapsMeAndroidTests)

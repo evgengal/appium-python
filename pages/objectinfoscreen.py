@@ -13,6 +13,7 @@ class ObjectInfo(BasePage, unittest.TestCase):
     _tv_place_phone = 'tv__place_phone'
     _tv_place_website = 'tv__place_website'
     _tv_place_cuisine = 'tv__place_cuisine'
+    _tv_place_wifi = 'tv__place_wifi'
     _btn_edit_place = 'tv__editor'
     time_from_objectinfo = ''
     phone_from_objectinfo = ''
@@ -41,6 +42,14 @@ class ObjectInfo(BasePage, unittest.TestCase):
     def check_is_displayed_tv_place_cuisine(self):
         super().is_displayed_by_id(self._tv_place_cuisine)
         cuisine_from_objectinfo = self.driver.find_element_by_id('tv__place_cuisine')
+
+    def check_one_of_cuisine_is_displayed(self, value):
+        super().is_displayed_by_id(self._tv_place_cuisine)
+        fulltext = self.driver.find_element_by_id('tv__place_cuisine').text
+        self.assertTrue(value in fulltext)
+
+    def check_is_displayed_tv_place_wifi(self):
+        super().is_displayed_by_id(self._tv_place_wifi)
 
     def check_is_displayed_tv_editor(self):
         super().is_displayed_by_id(self._btn_edit_place)
