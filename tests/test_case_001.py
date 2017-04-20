@@ -48,6 +48,8 @@ class MapsMeAndroidTests(unittest.TestCase):
         homepage.click_on_search_button()
         # Tap Categories button
         searchpage = Search(self.driver)
+        searchpage.check_is_displayed_object_with_name('History')
+        searchpage.check_is_displayed_categories_button()
         searchpage.click_on_categories_button()
         # Tap Food button
         searchpage.click_on_food_button()
