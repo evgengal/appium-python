@@ -1,4 +1,7 @@
 import unittest
+
+from selenium.common.exceptions import NoSuchElementException
+
 from pages.base import BasePage
 from pages.objectinfoscreen import ObjectInfo
 
@@ -17,6 +20,7 @@ class EditPlace(BasePage, unittest.TestCase):
     _block_operator = 'block_operator'
     _cuisine = 'cuisine'
     _btn_add_langs = 'add_langs'
+    _btn_ok = 'button1'
     _btn_cancel = 'button2'
     _time_open = 'time_open'
     _sw_wifi = 'sw__wifi'
@@ -32,10 +36,11 @@ class EditPlace(BasePage, unittest.TestCase):
         super().is_displayed_by_id(self._btn_add_langs)
 
     def skip_dialog_send_it_to_all_users(self):
-        alert_text = self.driver.find_element_by_name('Do you want to send it to all users?')
-        if alert_text.is_displayed():
+        try:
+            self.driver.find_element_by_name('Do you want to send it to all users?').is_displayed()
             self.click_on_btn_ok()
-            self.click_on_btn_save()
+        except NoSuchElementException:
+            print("Dialog: send it to all users did not appear")
 
     def check_is_displayed_alert_register(self):
         super().is_displayed_by_id(self._alert_register)
@@ -91,7 +96,7 @@ class EditPlace(BasePage, unittest.TestCase):
         super().click_by_id(self._sw_wifi)
 
     def click_on_btn_ok(self):
-        super().click_by_id(self._btn_cancel)
+        super().click_by_id(self._btn_ok)
 
     # input values
     def input_new_lang(self, value):
