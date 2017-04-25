@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-"
 import unittest
-import time
 from pages.homescreen import Home
 from pages.searchscreen import Search
 from pages.objectinfoscreen import ObjectInfo
@@ -18,6 +17,10 @@ class MapsMeAndroidTests(unittest.TestCase):
         self.driver.quit()
 
     def test_case_001(self):
+        homepage = Home(self.driver)
+        searchpage = Search(self.driver)
+        objectinfoscreen = ObjectInfo(self.driver)
+        editplace = EditPlace(self.driver)
 
         demo_data_001 = {
             "latin_name": "Rukkola Latin",
@@ -29,8 +32,16 @@ class MapsMeAndroidTests(unittest.TestCase):
             "new_opening_hours": ""
         }
 
+        # Disable show offers
+        homepage.click_on_menu_button()
+        homepage.click_on_settings_button()
+        self.driver.implicitly_wait(3)
+        homepage.click_on_other_settings()
+        homepage.switch_show_offers()
+        homepage.go_back()
+        homepage.go_back()
+
         # Check my_position button is displayed
-        homepage = Home(self.driver)
         homepage.check_is_displayed_my_position_button()
         # Tap my_position button
         homepage.click_on_my_position_button()
@@ -47,8 +58,6 @@ class MapsMeAndroidTests(unittest.TestCase):
         # Tap search button
         homepage.click_on_search_button()
         # Tap Categories button
-        searchpage = Search(self.driver)
-        searchpage.check_is_displayed_object_with_name('History')
         searchpage.check_is_displayed_categories_button()
         searchpage.click_on_categories_button()
         # Tap Food button
@@ -58,11 +67,11 @@ class MapsMeAndroidTests(unittest.TestCase):
         searchpage.check_is_displayed_show_on_map_button()
         # Choose Ruccola Restaurant
         searchpage.check_is_displayed_object_with_name('Руккола')
-        searchpage.click_on_object_with_name('Руккола')
+        searchpage.click_by_name('Руккола')
         # Check results
         homepage.check_is_displayed_map_surfaceview()
         homepage.check_is_displayed_place_preview()
-        objectinfoscreen = ObjectInfo(self.driver)
+
         objectinfoscreen.check_tv_title_is('Руккола')
         objectinfoscreen.check_tv_subtitle_is('Restaurant • Italian')
         objectinfoscreen.check_tv_address_is('Никольская улица, 8/1 с1')
@@ -79,7 +88,7 @@ class MapsMeAndroidTests(unittest.TestCase):
         objectinfoscreen.check_is_displayed_tv_editor()
         # Open edit place screen and check
         objectinfoscreen.click_on_btn_edit_place()
-        editplace = EditPlace(self.driver)
+
         editplace.scroll_to_block_opening_hours()
         editplace.check_opening_hours_value()
         editplace.check_phone_value()
@@ -90,10 +99,12 @@ class MapsMeAndroidTests(unittest.TestCase):
         editplace.scroll_to_btn_add_langs()
         editplace.click_on_btn_add_langs()
         editplace.scroll_to_latin_lang()
-        editplace.click_on_object_with_name('Latin')
+        editplace.click_by_name_strong('Latin')
+        editplace.click_by_name('Руккола')
+
         editplace.check_is_displayed_btn_add_langs()
         editplace.check_is_displayed_object_with_name('Latin')
-        editplace.input_new_lang(demo_data_001["latin_name"])
+        editplace.input_new_lang("Rukkola Latin")
         # start work around, need to add function: clear focus on touch outside
         editplace.click_on_btn_add_langs()
         editplace.tap_back_in_toolbar()
@@ -115,7 +126,7 @@ class MapsMeAndroidTests(unittest.TestCase):
         editplace.input_new_email(demo_data_001["email"])
         # Add new cuisine
         editplace.click_on_cuisine()
-        editplace.click_on_object_with_name(demo_data_001["cuisine"])
+        editplace.click_by_name(demo_data_001["cuisine"])
         editplace.click_on_btn_save()
         # Turn on wifi
         editplace.scroll_to_block_wifi()

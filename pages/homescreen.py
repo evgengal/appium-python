@@ -9,6 +9,8 @@ class Home(BasePage, unittest.TestCase):
     _place_preview = 'pp__preview'
     _place_coordinates = 'tv__place_latlon'
     _menu_frame_btn_search = 'search'
+    _menu_frame_btn_menu = 'menu'
+    _content_frame_btn_settings = 'settings'
     coordinates_in_decimal_degrees1 = ''
 
     # verify that the elements are displayed
@@ -34,8 +36,20 @@ class Home(BasePage, unittest.TestCase):
     def click_on_search_button(self):
         super().click_by_id(self._menu_frame_btn_search)
 
+    def click_on_menu_button(self):
+        super().click_by_id(self._menu_frame_btn_menu)
+
+    def click_on_settings_button(self):
+        super().click_by_id(self._content_frame_btn_settings)
+
     def click_on_place_coordinates(self):
         super().click_by_id(self._place_coordinates)
+
+    def click_on_other_settings(self):
+        super().click_by_name('Miscellaneous')
+
+    def switch_show_offers(self):
+        super().click_by_name('Show offers')
 
     def save_my_coordinates(self):
         my_coordinates = self.driver.find_element_by_id('tv__place_latlon')

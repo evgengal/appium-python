@@ -7,11 +7,11 @@ from pages.objectinfoscreen import ObjectInfo
 
 
 class EditPlace(BasePage, unittest.TestCase):
-
     _toolbar = 'toolbar'
     _category = 'category'
     _block_opening_hours = 'block_opening_hours'
     _opening_hours = 'opening_hours'
+    _show_additional_names = 'show_additional_names'
     _edit_opening_hours = 'edit_opening_hours'
     _block_cuisine = 'block_cuisine'
     _block_zipcode = 'block_zipcode'
@@ -37,7 +37,8 @@ class EditPlace(BasePage, unittest.TestCase):
 
     def skip_dialog_send_it_to_all_users(self):
         try:
-            self.driver.find_element_by_name('Do you want to send it to all users?').is_displayed()
+            self.driver.find_element_by_xpath(
+                '//*[contains(@text, "Do you want to send it to all users?")]').is_displayed()
             self.click_on_btn_ok()
         except NoSuchElementException:
             print("Dialog: send it to all users did not appear")
@@ -49,6 +50,9 @@ class EditPlace(BasePage, unittest.TestCase):
         super().is_displayed_by_id(self._alert_login_osm)
 
     # scroll to element
+    def scroll_to_show_additional_names(self):
+        super().scroll_to_element_with_id(self._show_additional_names)
+
     def scroll_to_block_opening_hours(self):
         super().scroll_to_element_with_id(self._block_opening_hours)
 
@@ -100,15 +104,15 @@ class EditPlace(BasePage, unittest.TestCase):
 
     # input values
     def input_new_lang(self, value):
-        super().input_text_by_name('Latin', value)
+        super().input_text_by_input_layout('Latin', value)
         self.go_back()
 
     def input_new_zipcode(self, value):
-        super().input_text_by_name('ZIP Code', value)
+        super().input_text_by_input_layout('ZIP Code', value)
         self.go_back()
 
     def input_new_email(self, value):
-        super().input_text_by_name('Email', value)
+        super().input_text_by_input_layout('Email', value)
         self.go_back()
 
     # check info
