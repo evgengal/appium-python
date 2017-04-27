@@ -66,7 +66,9 @@ class MapsMeAndroidTests(unittest.TestCase):
         self.driver.implicitly_wait(10)
         searchpage.check_is_displayed_show_on_map_button()
         # Choose Ruccola Restaurant
+        searchpage.scroll_to_element_with_text('Руккола')
         searchpage.check_is_displayed_object_with_name('Руккола')
+        searchpage.check_is_displayed_object_with_name('Никольская улица, 8/1 с1')
         searchpage.click_by_name('Руккола')
         # Check results
         homepage.check_is_displayed_map_surfaceview()

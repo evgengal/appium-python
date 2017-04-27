@@ -13,6 +13,9 @@ class Home(BasePage, unittest.TestCase):
     _content_frame_btn_settings = 'settings'
     coordinates_in_decimal_degrees1 = ''
 
+    def scroll_to_latin_lang(self):
+        super().scroll_to_element_with_text("Руккола")
+
     # verify that the elements are displayed
     def check_is_displayed_my_position_button(self):
         super().is_displayed_by_id(self._navigation_buttons_btn_my_position)
